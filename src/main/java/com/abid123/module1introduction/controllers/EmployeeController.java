@@ -5,6 +5,7 @@ import com.abid123.module1introduction.entities.EmployeeEntity;
 import com.abid123.module1introduction.repositories.employeeRepository;
 import com.abid123.module1introduction.services.EmployeeService;
 import com.sun.source.tree.ReturnTree;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +44,7 @@ public class EmployeeController {
     }
 
     @PostMapping()                                      // post employee
-    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeEntity Employee) {
+    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody @Valid EmployeeDTO Employee) {
         EmployeeDTO employee = EmployeeService.save(Employee);
         return ResponseEntity.ok(employee);
     }
