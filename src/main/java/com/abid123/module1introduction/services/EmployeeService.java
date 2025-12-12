@@ -52,7 +52,8 @@ public class EmployeeService {
 
     public EmployeeDTO updateEmployee(EmployeeDTO Employee,long Id){
         EmployeeEntity EmployeeEntity = modelMapper.map(Employee,EmployeeEntity.class);
-        EmployeeEntity.setId(Id);
+        boolean exist = isExist(Id);
+        if(!exist)  return null;
         EmployeeEntity savedEmployeeEntity = employeeRepository.save(EmployeeEntity);
         return modelMapper.map(savedEmployeeEntity, EmployeeDTO.class);
     }
