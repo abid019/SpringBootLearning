@@ -2,6 +2,9 @@ package com.abid123.module1introduction.repositories;
 
 import com.abid123.module1introduction.entities.EmployeeEntity;
 import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,4 +26,7 @@ public interface employeeRepository extends JpaRepository<EmployeeEntity, Long> 
 
     @Query("select e from EmployeeEntity e where e.email=:email and e.name=:name")
     Optional<EmployeeEntity> findByEmailAndName(String email, String name);
+
+//    List<EmployeeEntity> findAll(Sort sort);
+     Page<EmployeeEntity> findAll(Pageable pageable);
 }

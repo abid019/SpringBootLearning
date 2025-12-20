@@ -4,7 +4,13 @@ import com.abid123.module1introduction.dto.EmployeeDTO;
 import com.abid123.module1introduction.entities.EmployeeEntity;
 import com.abid123.module1introduction.repositories.employeeRepository;
 import org.apache.el.util.ReflectionUtil;
+//import org.hibernate.query.Page;
+import org.hibernate.query.SortDirection;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
@@ -33,16 +39,50 @@ public class EmployeeService {
           });
     }
 
-    public List<EmployeeDTO> findAll(Integer age, String SortBy){
+//    public List<EmployeeDTO> findAll(Integer age, String SortField,String Direction){
+////        return employeeRepository.findAll();
+//        System.out.println("salarySortBy-> " + SortField);
+////        Sort.Direction direction = Direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+//         Sort.Direction direction;
+//        try{
+//            direction = Sort.Direction.valueOf(Direction.toUpperCase());
+//        }catch(IllegalArgumentException e){
+//            direction = Sort.Direction.ASC;
+//        }
+//
+//        Pageable pageable
+//        List<EmployeeEntity> AllEmployeesEntities = employeeRepository.findAll(Sort.by(direction, SortField ));
+//        List<EmployeeDTO> EmployeeDTOs = new ArrayList<>();
+//        for(EmployeeEntity employee : AllEmployeesEntities){
+//            EmployeeDTO employeeDTO = modelMapper.map(employee,EmployeeDTO.class);
+//            EmployeeDTOs.add(employeeDTO);
+//        }
+//        return EmployeeDTOs;
+//    }
+
+
+public List<EmployeeDTO> findAll(Integer age, String SortField,String Direction,String pageNumber){
 //        return employeeRepository.findAll();
-        List<EmployeeEntity> AllEmployeesEntities = employeeRepository.findAll();
-        List<EmployeeDTO> EmployeeDTOs = new ArrayList<>();
-        for(EmployeeEntity employee : AllEmployeesEntities){
-            EmployeeDTO employeeDTO = modelMapper.map(employee,EmployeeDTO.class);
-            EmployeeDTOs.add(employeeDTO);
-        }
-        return EmployeeDTOs;
+    System.out.println("salarySortBy-> " + SortField);
+//        Sort.Direction direction = Direction.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+    Sort.Direction direction;
+    try{
+        direction = Sort.Direction.valueOf(Direction.toUpperCase());
+    }catch(IllegalArgumentException e){
+        direction = Sort.Direction.ASC;
     }
+
+    Sort sort = Sort.by(direction, SortField);
+    Pageable pageable = PageRequest.of(Integer.parseInt(pageNumber),10,sort);
+
+    List<EmployeeEntity> AllEmployeesEntities = employeeRepository.findAll(pageable).getContent();
+    List<EmployeeDTO> EmployeeDTOs = new ArrayList<>();
+    for(EmployeeEntity employee : AllEmployeesEntities){
+        EmployeeDTO employeeDTO = modelMapper.map(employee,EmployeeDTO.class);
+        EmployeeDTOs.add(employeeDTO);
+    }
+    return EmployeeDTOs;
+}
 
     public EmployeeDTO save(EmployeeDTO Employee) {
         EmployeeEntity EmployeeEntity = modelMapper.map(Employee, EmployeeEntity.class);

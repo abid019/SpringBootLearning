@@ -48,9 +48,13 @@ public class EmployeeController {
 //    }
 
     @GetMapping()                                       // get all employee list
-    public ResponseEntity<List<EmployeeDTO> >employeeWithFilter(@RequestParam(required = false, name = "inputAge") Integer age,
-                                                   @RequestParam(required = false) String SortBy) {
-        List<EmployeeDTO> AllEmploye = EmployeeService.findAll(age, SortBy);
+    public ResponseEntity<List<EmployeeDTO> >employeeWithFilter(
+            @RequestParam(required = false, name = "inputAge") Integer age,
+            @RequestParam(defaultValue = "id", name = "sortBy") String SortField,
+            @RequestParam(defaultValue = "ASC", name = "direction") String Direction,
+            @RequestParam(defaultValue = "0", name = "pageNumber") String PageNumber
+    ) {
+        List<EmployeeDTO> AllEmploye = EmployeeService.findAll(age, SortField,Direction,PageNumber);
         return ResponseEntity.ok(AllEmploye);
     }
 
