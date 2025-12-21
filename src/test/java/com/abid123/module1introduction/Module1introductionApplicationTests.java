@@ -1,5 +1,8 @@
 package com.abid123.module1introduction;
 
+import com.abid123.module1introduction.dto.EmployeeRoleStats;
+import com.abid123.module1introduction.dto.IEmployee;
+import com.abid123.module1introduction.dto.PEmployeeDTO;
 import com.abid123.module1introduction.entities.EmployeeEntity;
 import com.abid123.module1introduction.repositories.employeeRepository;
 import org.junit.jupiter.api.Test;
@@ -17,9 +20,11 @@ class Module1introductionApplicationTests {
 //	@Test
 //	void contextLoads() {
 //	}
-//    @Autowired
-//    private employeeRepository employeeRepository;
+    @Autowired
+    private employeeRepository employeeRepository;
 //
+
+
 //    @Test
 //    public void SimpleQuery() {
 //        EmployeeEntity employeeEntity = EmployeeEntity
@@ -48,4 +53,16 @@ class Module1introductionApplicationTests {
 //        Optional<EmployeeEntity> employee = employeeRepository.findByEmailAndName("nemathussain@gmail.com","nemat");
 //        employee.ifPresent(System.out::println);
 //    }
+
+    @Test
+    void contextLoads() {
+//        List<IEmployee> employeeEntities = employeeRepository.getAllEmployees();
+//        List<PEmployeeDTO> employeeEntities = employeeRepository.getAllEmployeesConcreate();
+//        List<EmployeeRoleStats> employeeEntities = employeeRepository.getAllEmployeeStats();
+//        for(EmployeeRoleStats employee: employeeEntities) {
+//            System.out.println(employee);
+//        }
+          int EmployeId =  employeeRepository.updateEmployeeNameWithId("Md Abid Hussain", 111L);
+          System.out.println(EmployeId);
+    }
 }
