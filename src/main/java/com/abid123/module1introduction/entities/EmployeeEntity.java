@@ -7,6 +7,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.Persistent;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees",
@@ -24,9 +26,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Builder
 @ToString
+@Data
 public class EmployeeEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 20)
     private String name;
@@ -42,5 +45,12 @@ public class EmployeeEntity {
     private LocalDate createdAt;
     @UpdateTimestamp
     private LocalDate updatedAt;
+
+    @OneToOne  //owning side
+    @JoinColumn(name = "benifit_plan_id", unique = true)
+    private BenifitPlanEntity benifitPlan;
+
+    @OneToMany(mappedBy = "employee")
+    private Set<ProjectAssignmentEntity> projectAssignment = new HashSet<>();
 
 }
