@@ -3,6 +3,7 @@ package com.abid123.module1introduction;
 import com.abid123.module1introduction.dto.EmployeeRoleStats;
 import com.abid123.module1introduction.dto.IEmployee;
 import com.abid123.module1introduction.dto.PEmployeeDTO;
+import com.abid123.module1introduction.entities.BenifitPlanEntity;
 import com.abid123.module1introduction.entities.EmployeeEntity;
 import com.abid123.module1introduction.repositories.employeeRepository;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,9 @@ class Module1introductionApplicationTests {
 //	}
     @Autowired
     private employeeRepository employeeRepository;
+
+    @Autowired
+    private BenifitPlanEntity benifitPlanEntity;
 //
 
 
@@ -64,5 +68,10 @@ class Module1introductionApplicationTests {
 //        }
           int EmployeId =  employeeRepository.updateEmployeeNameWithId("Md Abid Hussain", 111L);
           System.out.println(EmployeId);
+    }
+
+    @Test
+    void assiningBenifitToEmployee() {
+
     }
 }

@@ -2,7 +2,9 @@ package com.abid123.module1introduction.services;
 
 import com.abid123.module1introduction.dto.EmployeeDTO;
 import com.abid123.module1introduction.entities.EmployeeEntity;
+import com.abid123.module1introduction.repositories.BenifitPlanRepository;
 import com.abid123.module1introduction.repositories.employeeRepository;
+import jakarta.transaction.Transactional;
 import org.apache.el.util.ReflectionUtil;
 //import org.hibernate.query.Page;
 import org.hibernate.query.SortDirection;
@@ -24,10 +26,12 @@ import java.util.Optional;
 public class EmployeeService {
     private final employeeRepository employeeRepository;
     private final ModelMapper modelMapper;
+    private final BenifitPlanRepository benifitPlanRepository;
 
-    public EmployeeService(employeeRepository employeeRepository, ModelMapper modelMapper) {
+    public EmployeeService(employeeRepository employeeRepository, ModelMapper modelMapper, BenifitPlanRepository benifitPlanRepository) {
         this.employeeRepository = employeeRepository;
         this.modelMapper = modelMapper;
+        this.benifitPlanRepository = benifitPlanRepository;
     }
 
     public Optional<EmployeeDTO> findById(long Id){
@@ -119,5 +123,11 @@ public List<EmployeeDTO> findAll(Integer age, String SortField,String Direction,
             ReflectionUtils.setField(toBeUpdated, EmployeeEntity, Value);
         });
         return modelMapper.map(EmployeeEntity, EmployeeDTO.class);
+    }
+
+    @Transactional
+    public void deleteEmployee(Long employeeId) {
+        benifitPlanRepository.findById(employeeId).orElseThrow();
+        benifitPlanRepository.deleteById(employeeId);
     }
 }

@@ -25,8 +25,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
-@Data
 public class EmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,11 +44,11 @@ public class EmployeeEntity {
     @UpdateTimestamp
     private LocalDate updatedAt;
 
-    @OneToOne  //owning side
+    @OneToOne(cascade = CascadeType.ALL)  //owning side
     @JoinColumn(name = "benifit_plan_id", unique = true)
     private BenifitPlanEntity benifitPlan;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)   //inverse side
     private Set<ProjectAssignmentEntity> projectAssignment = new HashSet<>();
 
 }

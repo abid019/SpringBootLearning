@@ -110,3 +110,13 @@ VALUES
 (98,'Varun 98', 'varun98@example.com',28, '2018-06-05', FALSE, 'System Administrator',320000),
 (99,'Sanjana 99','sanjana99@example.com',26,'2022-02-04', TRUE,  'Data Analyst',   350000),
 (100,'Sanjana 100','sanjana100@example.com',27,'2022-02-05', FALSE, 'Business Analyst',340000);
+
+
+INSERT INTO manager_entity
+(id,name,specialization,email,date_of_birth)
+VALUES
+    (1,"Md Abid Hussain", "Tech", "mdabidhussain3112@google.com", '2001-12-31'),
+    (2,"Nemat Hussain", "Tech", "nemat@google.com", '2001-11-30'),
+    (3,"Md Khalid Hussain", "Tech", "khalid@google.com", '2001-11-27'),
+    (4,"Satyam kanujia", "Product", "satyam@google.com", '2001-11-09'),
+    (5,"Kazim khan", "Investigation", "kazim@google.com", '2001-04-11');
