@@ -25,7 +25,7 @@ public class ProjectAssignmentEntity {
     private LocalDate endDate;
     private boolean status;
 
-    @ManyToOne()    // owning side
+    @ManyToOne(fetch = FetchType.LAZY)    // owning side
     @JoinColumn(name = "manager_id")
     @JsonIgnore
     @ToString.Exclude

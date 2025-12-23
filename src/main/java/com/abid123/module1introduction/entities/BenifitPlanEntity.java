@@ -23,6 +23,6 @@ public class BenifitPlanEntity {
     @CreationTimestamp
     private Date createdAt;
 
-    @OneToOne(mappedBy = "benifitPlan")     //inverse side
+    @OneToOne(mappedBy = "benifitPlan", fetch = FetchType.LAZY)     //inverse side
     private EmployeeEntity employee;
 }

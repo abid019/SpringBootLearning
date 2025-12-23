@@ -50,4 +50,7 @@ public interface employeeRepository extends JpaRepository<EmployeeEntity, Long> 
      @Query("UPDATE EmployeeEntity e SET e.name=:name WHERE e.id=:id")
      int updateEmployeeNameWithId(@Param("name") String name, @Param("id") Long id);
 
+     @Query("SELECT e FROM EmployeeEntity e LEFT JOIN FETCH e.benifitPlan")
+     List<EmployeeEntity> getAllEmployeeWithBenifits();
+
 }

@@ -130,4 +130,15 @@ public List<EmployeeDTO> findAll(Integer age, String SortField,String Direction,
         benifitPlanRepository.findById(employeeId).orElseThrow();
         benifitPlanRepository.deleteById(employeeId);
     }
+
+
+    public List<EmployeeEntity> removeBenifitsToEmployee() {
+        List<EmployeeEntity> EmployeeEntities = employeeRepository.getAllEmployeeWithBenifits();
+        return EmployeeEntities;
+    }
+
+    public List<EmployeeEntity> TestGetAllEmployee() {
+        List<EmployeeEntity> EmployeeEntities = employeeRepository.getAllEmployeeWithBenifits();
+        return EmployeeEntities;
+    }
 }
