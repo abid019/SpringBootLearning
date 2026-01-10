@@ -1,11 +1,13 @@
 package com.abid123.module1introduction.advices;
 
 import com.abid123.module1introduction.Exceptions.ResourceNotFoundException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.security.core.AuthenticationException;
 
 import java.security.PublicKey;
 import java.util.List;
@@ -43,7 +45,24 @@ public class GlobalExceptionHandler {
         return buildResponseEntity(apiError);
     }
 
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ApiResponse<ApiError>> handleJwtException(JwtException e){
+        ApiError apiError = ApiError.builder().status(HttpStatus.UNAUTHORIZED).message(e.getMessage()).build();
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ApiResponse<ApiError>> handleUnauthorizedException(Exception e){
+        ApiError apiError = ApiError
+                .builder()
+                .status(HttpStatus.UNAUTHORIZED)
+                .message(e.getMessage())
+                .build();
+        return buildResponseEntity(apiError);
+    }
+
     public ResponseEntity<ApiResponse<ApiError>> buildResponseEntity(ApiError apiError){
         return new ResponseEntity<>(new ApiResponse<>(apiError), apiError.getStatus());
     }
+
 }

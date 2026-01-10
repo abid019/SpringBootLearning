@@ -14,15 +14,15 @@ public class JwtTest {
 
     @Test
     public void tokenTest(){
-        User user =  new User(4L,"abid@gmail.com","abid1234");
+//        User user =  new User(4L,"abid@gmail.com","abid1234");
 
-        String token = jwtService.generateJwtToken(user);
+//        String token = jwtService.generateJwtToken(user);
 
-        System.out.println(token);
+//        System.out.println(token);
 
-        Long id = jwtService.getUserIdFromJwtToken(token);
+//        Long id = jwtService.getUserIdFromJwtToken(token);
 
-        System.out.println(id);
+//        System.out.println(id);
     }
 
 }

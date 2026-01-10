@@ -1,11 +1,12 @@
 package com.abid123.module1introduction.services;
 
-import com.abid123.module1introduction.entities.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -24,11 +25,10 @@ public class JwtService {
     }
 
     //create jwt token
-    public String generateJwtToken(User user) {
+    public String generateAccessToken(String username) {
         return Jwts
                 .builder()
-                .subject(user.getId().toString())
-                .claim("email",user.getEmail())
+                .subject(username)
                 .claim("roles", Set.of("ADMIN","USER"))
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000*60) )
@@ -36,16 +36,28 @@ public class JwtService {
                 .compact();
     }
 
+    public String generateRefreshToken(String username) {
+        return Jwts
+                .builder()
+                .subject(username)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000*60*60))
+                .signWith(getSecretKey())
+                .compact();
+    }
+
 
     //validate jwt token
-    public Long getUserIdFromJwtToken(String token){
-        Claims claims = Jwts.parser()
-                            .verifyWith(getSecretKey())
-                            .build()
-                            .parseSignedClaims(token)
-                            .getPayload();
+    public String getUserFromJwtToken(String token){
 
-        return Long.valueOf(claims.getSubject());
+            return Jwts.parser()
+                    .verifyWith(getSecretKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getBody()
+                    .getSubject();
+
+//        return Long.valueOf(claims.getSubject());
     }
 
 }

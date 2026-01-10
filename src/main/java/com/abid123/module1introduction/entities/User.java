@@ -3,6 +3,7 @@ package com.abid123.module1introduction.entities;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails{
@@ -20,7 +22,7 @@ public class User implements UserDetails{
     @Column(unique=true)
     private String email;
     private String password;
-
+    private String name;
 
 
     @Override
@@ -37,4 +39,6 @@ public class User implements UserDetails{
     public String getUsername() {
         return this.email;
     }
+
+
 }
