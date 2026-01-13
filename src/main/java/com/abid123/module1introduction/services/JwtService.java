@@ -1,12 +1,12 @@
 package com.abid123.module1introduction.services;
 
+import com.abid123.module1introduction.entities.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -25,21 +25,21 @@ public class JwtService {
     }
 
     //create jwt token
-    public String generateAccessToken(String username) {
+    public String generateAccessToken(User user) {
         return Jwts
                 .builder()
-                .subject(username)
-                .claim("roles", Set.of("ADMIN","USER"))
+                .subject(user.getUsername())
+                .claim("roles",user.getRoles().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000*60) )
                 .signWith(getSecretKey())
                 .compact();
     }
 
-    public String generateRefreshToken(String username) {
+    public String generateRefreshToken(User user) {
         return Jwts
                 .builder()
-                .subject(username)
+                .subject(user.getId().toString())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + 1000*60*60))
                 .signWith(getSecretKey())

@@ -1,6 +1,9 @@
 package com.abid123.module1introduction.config;
 
 import com.abid123.module1introduction.Handler.OauthSuccessHandler;
+import com.abid123.module1introduction.entities.enums.Role;
+import static com.abid123.module1introduction.entities.enums.Role.ADMIN;
+
 import com.abid123.module1introduction.filters.JwtValidationFilter;
 import com.abid123.module1introduction.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +24,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -29,16 +33,21 @@ public class WebSecurityConfig {
     private final JwtValidationFilter jwtValidationFilter;
     private final OauthSuccessHandler oauthSuccessHandler;
 
+
+    private static final String[] publicRoutes = {
+            "/auth/**" , "/error","/login/**","/oauth2/**", "/home.html"
+    };
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/auth/**" , "/error","/login/**","/oauth2/**", "/home.html").permitAll()
+                                .requestMatchers(publicRoutes).permitAll()
+                                .requestMatchers("/employee/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
+                .sessionManagement(session-> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtValidationFilter, UsernamePasswordAuthenticationFilter.class)
                 .oauth2Login(oauth2Config -> oauth2Config
                         .successHandler(oauthSuccessHandler)

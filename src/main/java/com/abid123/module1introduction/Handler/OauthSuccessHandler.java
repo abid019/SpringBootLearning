@@ -66,12 +66,14 @@ public class OauthSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
                     .name(oAuth2User.getAttribute("name"))
                     .build();
 
-            userService.save(newUser);
+            user = userService.save(newUser);
+
         }
+
         logger.info("User after creation: " + user);
 
-        String accessToken = jwtService.generateAccessToken(email);
-        String refreshToken = jwtService.generateRefreshToken(email);
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
 
 
         Cookie cookie = new Cookie("refresh_token", refreshToken);

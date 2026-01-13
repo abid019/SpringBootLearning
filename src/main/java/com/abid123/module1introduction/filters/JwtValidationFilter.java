@@ -22,6 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @RequiredArgsConstructor
 @Component
@@ -49,10 +50,11 @@ public class JwtValidationFilter extends OncePerRequestFilter {
             String token = requestTokenHeader.split("Bearer ")[1];
 
             String user = jwtService.getUserFromJwtToken(token);
-
+            logger.info("user" + user);
             if(user != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                User OneUserDetail = userService.loadUserByUsername(user);
-                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(OneUserDetail, null, null);
+                User OneUserDetail = userService.loadUserByEmail(user);
+                logger.info("OneUserDetail" + OneUserDetail);
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(OneUserDetail, null, OneUserDetail.getAuthorities());
                 authenticationToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );

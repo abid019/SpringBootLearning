@@ -3,12 +3,12 @@ package com.abid123.module1introduction.services;
 import com.abid123.module1introduction.dto.LoginDTO;
 import com.abid123.module1introduction.dto.LoginResponseDTO;
 import com.abid123.module1introduction.dto.UserDTO;
+import com.abid123.module1introduction.entities.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.flogger.Flogger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +23,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final SessionService sessionService;
+    private final UserService userService;
 
     public LoginResponseDTO login(LoginDTO LoginDTO) throws UsernameNotFoundException {
         Authentication authentication = authenticationManager.authenticate(
@@ -34,8 +35,8 @@ public class AuthService {
 
 
 
-        String accessToken = jwtService.generateAccessToken(authentication.getName());
-        String refreshToken = jwtService.generateRefreshToken(authentication.getName());
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
 
         sessionService.generateNewSession(user,refreshToken);
 
@@ -50,8 +51,9 @@ public class AuthService {
 
     public LoginResponseDTO genrateAccessTokenFromRefreshToken(String refreshToken) {
 
-        String user = jwtService.getUserFromJwtToken(refreshToken);
+        String email = jwtService.getUserFromJwtToken(refreshToken);
         sessionService.validateSession(refreshToken);
+        User user = userService.loadUserByEmail(email);
         String accessToken = jwtService.generateAccessToken(user);
 
 
