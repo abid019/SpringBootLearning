@@ -2,6 +2,8 @@ package com.abid123.module1introduction.config;
 
 import com.abid123.module1introduction.Handler.OauthSuccessHandler;
 import com.abid123.module1introduction.entities.enums.Role;
+
+import static com.abid123.module1introduction.entities.enums.Permissions.*;
 import static com.abid123.module1introduction.entities.enums.Role.ADMIN;
 
 import com.abid123.module1introduction.filters.JwtValidationFilter;
@@ -9,6 +11,7 @@ import com.abid123.module1introduction.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -43,7 +46,10 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth
                                 .requestMatchers(publicRoutes).permitAll()
-                                .requestMatchers("/employee/**").hasRole("ADMIN")
+                                .requestMatchers( HttpMethod.POST ,"/employee/**").hasAuthority(EMPLOYEE_CREATE.name())
+                                .requestMatchers(HttpMethod.GET, "/employee/**").hasAuthority(EMPLOYEE_VIEW.name())
+                                .requestMatchers(HttpMethod.DELETE,"/employee/**").hasAuthority(EMPLOYEE_DELETE.name())
+                                .requestMatchers(HttpMethod.PUT,"/employee/**").hasAuthority(EMPLOYEE_UPDATE.name())
                                 .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable())
@@ -53,28 +59,10 @@ public class WebSecurityConfig {
                         .successHandler(oauthSuccessHandler)
                         .failureUrl("/login?error=true")
                 );
-//                .formLogin(Customizer.withDefaults());
-//                .logout(Customizer.withDefaults());
 
         return httpSecurity.build();
     }
 
-//    @Bean
-//    UserDetailsService userDetailsService() {
-//        UserDetails adminUser = User
-//                                    .withUsername("abid")
-//                                    .password(passwordEncoder().encode("abid123"))
-//                                    .roles("ADMIN")
-//                                    .build();
-//
-//        UserDetails normalUser = User
-//                                    .withUsername("khalid")
-//                                    .password(passwordEncoder().encode("khalid123"))
-//                                    .roles("USER")
-//                                    .build();
-//
-//        return new InMemoryUserDetailsManager(normalUser, adminUser);
-//    }
 
 
 }

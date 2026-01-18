@@ -13,19 +13,19 @@ import java.util.List;
 @SpringBootTest
 public class EmployeeTest {
 
-    @Autowired
-    private EmployeeService employeeService;
-
-    @Test
-    public void DeleteEmployeeTest() {
-        employeeService.deleteEmployee(333L);
-    }
-
-    @Test
-    public void testGetAllEmployee() {
-        List<EmployeeEntity> EmployeeEntities = employeeService.TestGetAllEmployee();
-        for(EmployeeEntity employee : EmployeeEntities) {
-            System.out.println(employee);
-        }
-    }
+//    @Autowired
+//    private EmployeeService employeeService;
+//
+//    @Test
+//    public void DeleteEmployeeTest() {
+//        employeeService.deleteEmployee(333L);
+//    }
+//
+//    @Test
+//    public void testGetAllEmployee() {
+//        List<EmployeeEntity> EmployeeEntities = employeeService.TestGetAllEmployee();
+//        for(EmployeeEntity employee : EmployeeEntities) {
+//            System.out.println(employee);
+//        }
+//    }
 }

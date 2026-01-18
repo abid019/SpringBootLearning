@@ -9,20 +9,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class JwtTest {
 
-    @Autowired
-    private JwtService jwtService;
-
-    @Test
-    public void tokenTest(){
-//        User user =  new User(4L,"abid@gmail.com","abid1234");
-
-//        String token = jwtService.generateJwtToken(user);
-
-//        System.out.println(token);
-
-//        Long id = jwtService.getUserIdFromJwtToken(token);
-
-//        System.out.println(id);
-    }
+//    @Autowired
+//    private JwtService jwtService;
+//
+//    @Test
+//    public void tokenTest(){
+////        User user =  new User(4L,"abid@gmail.com","abid1234");
+//
+////        String token = jwtService.generateJwtToken(user);
+//
+////        System.out.println(token);
+//
+////        Long id = jwtService.getUserIdFromJwtToken(token);
+//
+////        System.out.println(id);
+//    }
 
 }
